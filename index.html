@@ -1415,6 +1415,8 @@
     let chartPoints = [];
     let baseTopic = 'landim/flexmotion';
     let selectedDeviceId = null;
+    let discoveryTimer = null;
+    let discoveryAttempts = 0;
     const devices = new Map();
 
     const connectionDialog = document.getElementById('connectDialog');
@@ -1496,7 +1498,7 @@
             <div class="device-card-head">
               <div>
                 <p class="device-name">${escapeHTML(device.name || 'ESP32 FlexMotion')}</p>
-                <p class="device-id">${escapeHTML(id)}</p>
+                <p class="device-id">ID automático: ${escapeHTML(id)} · não altere</p>
               </div>
               <span class="online-badge${device.online ? '' : ' offline'}">${device.online ? 'Online' : 'Offline'}</span>
             </div>
@@ -1533,6 +1535,7 @@
       };
       devices.set(deviceId, device);
       if (!selectedDeviceId && device.online) selectedDeviceId = deviceId;
+      if (device.online) stopDiscovery();
       renderDevices();
     }
 
@@ -1564,6 +1567,8 @@
       device.calibrated = Boolean(payload.calibrated);
       device.calibration = payload;
       devices.set(deviceId, device);
+      if (!selectedDeviceId) selectedDeviceId = deviceId;
+      stopDiscovery();
       renderDevices();
       if (selectedDeviceId === deviceId) updateCalibrationResults(payload);
       if (payload.error) showToast(payload.error, 'error');
@@ -1597,7 +1602,11 @@
         showToast('Conecte o painel ao MQTT antes de enviar comandos.', 'error');
         return false;
       }
-      mqttClient.publish(`${baseTopic}/devices/${selectedDeviceId}/command`, JSON.stringify({ action, ...extra }), { qos: 1 });
+      const message = JSON.stringify({ action, ...extra });
+      mqttClient.publish(`${baseTopic}/comando`, message, { qos: 1 });
+      if (selectedDeviceId && selectedDeviceId !== 'esp32-flex') {
+        mqttClient.publish(`${baseTopic}/devices/${selectedDeviceId}/command`, message, { qos: 1 });
+      }
       return true;
     }
 
@@ -1635,13 +1644,44 @@
       }
     }
 
+    function publishDiscoveryRequest() {
+      if (!mqttReady()) return;
+      const message = JSON.stringify({ action: 'announce' });
+      mqttClient.publish(`${baseTopic}/comando`, message, { qos: 0 });
+      mqttClient.publish(`${baseTopic}/broadcast/command`, message, { qos: 0 });
+      mqttClient.publish('landim/sensor-flex/dedo1/comando', message, { qos: 0 });
+    }
+
+    function stopDiscovery() {
+      if (discoveryTimer) clearInterval(discoveryTimer);
+      discoveryTimer = null;
+      discoveryAttempts = 0;
+    }
+
+    function startDiscovery() {
+      stopDiscovery();
+      publishDiscoveryRequest();
+      discoveryAttempts = 1;
+      discoveryTimer = setInterval(() => {
+        discoveryAttempts += 1;
+        publishDiscoveryRequest();
+        if (discoveryAttempts >= 6) {
+          const hasOnlineDevice = Array.from(devices.values()).some(device => device.online);
+          stopDiscovery();
+          if (!hasOnlineDevice) {
+            showToast('MQTT conectado, mas a ESP32 não respondeu. Confira no Monitor Serial se aparece ENVIADO COM SUCESSO.', 'error');
+          }
+        }
+      }, 2500);
+    }
+
     function announceDevices() {
       if (!mqttReady()) {
         openConnectionDialog();
         showToast('Conecte ao MQTT para procurar placas.', 'error');
         return;
       }
-      mqttClient.publish(`${baseTopic}/broadcast/command`, JSON.stringify({ action: 'announce' }), { qos: 0 });
+      startDiscovery();
       showToast('Procurando ESP32 online…');
     }
 
@@ -1685,20 +1725,26 @@
 
     function processReading(payload, deviceId = null) {
       if (deviceId) {
-        const device = devices.get(deviceId) || { id: deviceId, name: 'ESP32 FlexMotion', online: true };
+        const device = devices.get(deviceId) || { id: deviceId, name: payload.name || 'ESP32 FlexMotion', online: true };
         device.lastSeen = Date.now();
         device.online = true;
+        device.rssi = payload.rssi ?? device.rssi;
         devices.set(deviceId, device);
+        stopDiscovery();
         if (!selectedDeviceId) selectDevice(deviceId, false);
+        else renderDevices();
         if (selectedDeviceId !== deviceId) return;
       }
-      const movement = Math.max(0, Math.min(MAX_MOVEMENT_CM, numeric(payload.movimento_cm)));
+      // O firmware oficial envia movimento_cm. Os nomes alternativos mantêm
+      // compatibilidade com versões anteriores e testes manuais no HiveMQ.
+      const movementValue = payload.movimento_cm ?? payload.centimetros ?? payload.cm ?? payload.movimento ?? payload.valor_cm ?? payload.flexao_cm;
+      const movement = Math.max(0, Math.min(MAX_MOVEMENT_CM, numeric(movementValue)));
       const reading = {
         time: new Date(),
         movement,
-        resistance: Math.max(0, numeric(payload.resistencia_kohm)),
-        voltage: Math.max(0, numeric(payload.tensao_v)),
-        adc: Math.max(0, Math.round(numeric(payload.adc))),
+        resistance: Math.max(0, numeric(payload.resistencia_kohm ?? payload.resistencia)),
+        voltage: Math.max(0, numeric(payload.tensao_v ?? payload.tensao)),
+        adc: Math.max(0, Math.round(numeric(payload.adc ?? payload.valor_adc))),
         state: normalizedState(payload.estado, movement)
       };
 
@@ -1868,6 +1914,7 @@
     }
 
     function disconnectMQTT() {
+      stopDiscovery();
       if (mqttClient) {
         mqttClient.end(true);
         mqttClient = null;
@@ -1926,10 +1973,15 @@
         ui.connectButton.style.opacity = '1';
         ui.connectButton.textContent = 'Reconectar';
         const subscriptions = [
+          `${baseTopic}/status`,
+          `${baseTopic}/dados`,
+          `${baseTopic}/calibracao`,
           `${baseTopic}/devices/+/status`,
           `${baseTopic}/devices/+/data`,
           `${baseTopic}/devices/+/calibration`,
-          'landim/sensor-flex/dedo1/dados'
+          'landim/sensor-flex/dedo1/dados',
+          'landim/sensor-flex/dedo1/status',
+          'landim/sensor-flex/dedo1/calibracao'
         ];
         mqttClient.subscribe(subscriptions, { qos: 0 }, error => {
           if (error) showToast(`Não foi possível assinar o tópico: ${error.message}`, 'error');
@@ -1943,12 +1995,15 @@
       mqttClient.on('message', (receivedTopic, message) => {
         try {
           const payload = JSON.parse(message.toString());
-          const match = receivedTopic.match(new RegExp(`^${baseTopic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/devices/([^/]+)/(status|data|calibration)$`));
-          if (!match) {
-            processReading(payload);
-            return;
-          }
-          const [, deviceId, channel] = match;
+          const escapedBaseTopic = baseTopic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const simpleMatch = receivedTopic.match(new RegExp(`^${escapedBaseTopic}/(status|dados|calibracao)$`));
+          const deviceMatch = receivedTopic.match(new RegExp(`^${escapedBaseTopic}/devices/([^/]+)/(status|data|calibration)$`));
+          const legacyMatch = receivedTopic.match(/^landim\/sensor-flex\/dedo1\/(dados|status|calibracao)$/);
+          if (!simpleMatch && !deviceMatch && !legacyMatch) return;
+
+          const rawChannel = simpleMatch?.[1] || deviceMatch?.[2] || legacyMatch?.[1];
+          const channel = rawChannel === 'dados' ? 'data' : rawChannel === 'calibracao' ? 'calibration' : rawChannel;
+          const deviceId = payload.device_id || deviceMatch?.[1] || selectedDeviceId || 'esp32-flex';
           if (channel === 'status') handleDeviceStatus(deviceId, payload);
           else if (channel === 'calibration') handleCalibrationState(deviceId, payload);
           else processReading(payload, deviceId);
