@@ -945,6 +945,159 @@
       box-shadow: 0 22px 60px rgba(0, 0, 0, .34);
     }
 
+    .devices-panel {
+      margin-bottom: 16px;
+      padding: 24px 26px;
+    }
+    .devices-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .devices-copy { max-width: 680px; }
+    .devices-description { margin: 7px 0 0; color: #7e918b; font-size: 12px; line-height: 1.55; }
+    .refresh-button {
+      display: inline-flex;
+      min-height: 40px;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      color: #31534b;
+      border: 1px solid var(--line-strong);
+      border-radius: 13px;
+      background: #fff;
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .refresh-button:disabled { cursor: not-allowed; opacity: .48; }
+    .refresh-button svg { width: 15px; height: 15px; }
+    .device-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+    .device-empty {
+      grid-column: 1 / -1;
+      display: flex;
+      min-height: 90px;
+      align-items: center;
+      gap: 13px;
+      padding: 18px;
+      color: #879a94;
+      border: 1px dashed #d5e1dc;
+      border-radius: 17px;
+      background: #fafcfb;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .device-empty-icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      place-items: center;
+      color: #42bca7;
+      border-radius: 14px;
+      background: #eaf8f4;
+    }
+    .device-empty-icon svg { width: 21px; height: 21px; }
+    .device-card {
+      position: relative;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fbfdfc;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+    .device-card:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(35, 77, 65, .07); }
+    .device-card.selected { border-color: rgba(47, 174, 152, .55); box-shadow: 0 0 0 3px rgba(47, 174, 152, .09); }
+    .device-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .device-name { margin: 0; color: #21443b; font-size: 14px; font-weight: 790; }
+    .device-id { margin: 4px 0 0; color: #95a59f; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 9px; }
+    .online-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      color: #28835d;
+      border-radius: 999px;
+      background: #eaf8f1;
+      font-size: 9px;
+      font-weight: 780;
+      text-transform: uppercase;
+    }
+    .online-badge::before { width: 6px; height: 6px; content: ""; border-radius: 50%; background: #37ad78; }
+    .online-badge.offline { color: #8b777b; background: #f4eff0; }
+    .online-badge.offline::before { background: #a28e92; }
+    .device-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin: 15px 0; }
+    .device-meta div { min-width: 0; padding: 9px; border-radius: 11px; background: #f2f7f4; }
+    .device-meta span { display: block; overflow: hidden; color: #8a9b96; font-size: 8px; font-weight: 760; letter-spacing: .08em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+    .device-meta strong { display: block; overflow: hidden; margin-top: 4px; color: #45645b; font-size: 11px; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
+    .device-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .device-actions button { min-height: 36px; border-radius: 11px; font-size: 10px; font-weight: 760; }
+    .device-select { color: #31534b; border: 1px solid var(--line-strong); background: #fff; }
+    .device-calibrate { color: #fff; border: 0; background: #2fae98; }
+    .device-calibrate:disabled { cursor: not-allowed; opacity: .45; }
+    .calibration-dialog { width: min(760px, calc(100% - 28px)); }
+    .calibration-intro {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 18px;
+      padding: 13px 14px;
+      color: #667e76;
+      border: 1px solid #dce9e4;
+      border-radius: 14px;
+      background: #f4faf7;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+    .calibration-intro svg { width: 18px; height: 18px; flex: 0 0 auto; color: #35aa96; }
+    .calibration-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .calibration-step { padding: 15px; border: 1px solid var(--line); border-radius: 16px; background: #fbfdfc; }
+    .step-head { display: flex; align-items: center; gap: 9px; margin-bottom: 13px; }
+    .step-number { display: grid; width: 27px; height: 27px; place-items: center; color: #278f7c; border-radius: 9px; background: #e7f7f2; font-size: 11px; font-weight: 820; }
+    .step-title { color: #31534b; font-size: 11px; font-weight: 780; }
+    .calibration-step label { font-size: 9px; }
+    .calibration-step input { height: 38px; }
+    .capture-button { width: 100%; min-height: 38px; margin-top: 10px; color: #fff; border: 0; border-radius: 11px; background: #2fae98; font-size: 10px; font-weight: 780; }
+    .capture-button:disabled { opacity: .58; }
+    .point-result { min-height: 16px; margin: 9px 0 0; color: #82958e; font-size: 9px; text-align: center; }
+    .point-result.saved { color: #26835d; font-weight: 720; }
+    .calibration-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 17px; }
+    .calibration-summary { margin: 0; color: #7e918b; font-size: 10px; line-height: 1.5; }
+    .reset-button { min-height: 38px; padding: 0 13px; color: #b14f5d; border: 1px solid #f0cdd2; border-radius: 11px; background: #fff8f9; font-size: 10px; font-weight: 760; }
+
+    html[data-theme="dark"] .devices-description,
+    html[data-theme="dark"] .calibration-summary { color: #82968f; }
+    html[data-theme="dark"] .refresh-button,
+    html[data-theme="dark"] .device-select {
+      color: #bdd0c9;
+      border-color: #30413e;
+      background: #172321;
+    }
+    html[data-theme="dark"] .device-empty {
+      color: #7f938c;
+      border-color: #32433f;
+      background: #111c1a;
+    }
+    html[data-theme="dark"] .device-empty-icon { color: #64cdb8; background: rgba(55, 173, 148, .12); }
+    html[data-theme="dark"] .device-card,
+    html[data-theme="dark"] .calibration-step { border-color: #2b3b38; background: #111b1a; }
+    html[data-theme="dark"] .device-card.selected { border-color: rgba(79, 202, 177, .58); box-shadow: 0 0 0 3px rgba(79, 202, 177, .08); }
+    html[data-theme="dark"] .device-name,
+    html[data-theme="dark"] .step-title { color: #dcebe6; }
+    html[data-theme="dark"] .device-id { color: #6f847d; }
+    html[data-theme="dark"] .online-badge { color: #76d3a7; background: rgba(55, 173, 120, .13); }
+    html[data-theme="dark"] .online-badge.offline { color: #a69498; background: rgba(162, 142, 146, .11); }
+    html[data-theme="dark"] .device-meta div { background: #182523; }
+    html[data-theme="dark"] .device-meta span { color: #72867f; }
+    html[data-theme="dark"] .device-meta strong { color: #afc1bb; }
+    html[data-theme="dark"] .calibration-intro { color: #9bb0a9; border-color: #2d423d; background: #13231f; }
+    html[data-theme="dark"] .step-number { color: #6bd3bd; background: rgba(55, 173, 148, .13); }
+    html[data-theme="dark"] .point-result { color: #72867f; }
+    html[data-theme="dark"] .point-result.saved { color: #74d3a7; }
+    html[data-theme="dark"] .reset-button { color: #e1939f; border-color: #53353a; background: #25191b; }
+
     @keyframes dialogIn { from { opacity: 0; transform: translateY(12px) scale(.98); } }
 
     @media (max-width: 860px) {
@@ -952,6 +1105,7 @@
       .hero-visual { min-height: 190px; }
       .sensor-orbit { width: 165px; }
       .live-chip { right: 8%; }
+      .calibration-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .app { width: min(100% - 24px, 1240px); padding-top: 14px; }
@@ -971,6 +1125,12 @@
       .connect-panel { padding: 23px 20px; }
       .connect-panel .form-grid { grid-template-columns: 1fr; }
       .field-host, .field-port, .field-user, .field-password { grid-column: 1; }
+      .devices-panel { padding: 21px; }
+      .devices-head { align-items: flex-start; }
+      .refresh-button span { display: none; }
+      .refresh-button { width: 40px; padding: 0; justify-content: center; }
+      .device-list { grid-template-columns: 1fr; }
+      .calibration-footer { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -1016,6 +1176,26 @@
           <span class="live-chip"><i></i>Leitura contínua</span>
         </div>
       </article>
+    </section>
+
+    <section class="panel devices-panel" aria-labelledby="devicesTitle">
+      <div class="devices-head">
+        <div class="devices-copy">
+          <p class="panel-kicker">Descoberta via MQTT</p>
+          <h2 id="devicesTitle">ESP32 disponíveis</h2>
+          <p class="devices-description">As placas online anunciam automaticamente nome, endereço IP, intensidade do Wi-Fi e estado da calibração.</p>
+        </div>
+        <button class="refresh-button" id="refreshDevicesButton" type="button" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6v5h-5"/><path d="M4 18v-5h5"/><path d="M18.5 9A7 7 0 0 0 6 6.5L4 9m16 6-2 2.5A7 7 0 0 1 5.5 15"/></svg>
+          <span>Procurar placas</span>
+        </button>
+      </div>
+      <div class="device-list" id="deviceList">
+        <div class="device-empty">
+          <span class="device-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></svg></span>
+          <span>Conecte o painel ao HiveMQ para localizar as ESP32 com o novo código.</span>
+        </div>
+      </div>
     </section>
 
     <section class="metrics" aria-label="Medições atuais">
@@ -1131,8 +1311,8 @@
             <input id="password" type="password" placeholder="Digite a senha" autocomplete="current-password">
           </div>
           <div class="field-wide">
-            <label for="topic">Tópico</label>
-            <input id="topic" value="landim/sensor-flex/dedo1/dados" autocomplete="off">
+            <label for="topic">Tópico base</label>
+            <input id="topic" value="landim/flexmotion" autocomplete="off">
           </div>
         </div>
         <div class="button-row">
@@ -1141,6 +1321,49 @@
         </div>
         <p class="security-hint">A senha é usada somente nesta sessão e não é gravada pelo painel.</p>
       </form>
+    </aside>
+  </dialog>
+
+  <dialog class="connect-dialog calibration-dialog" id="calibrationDialog" aria-labelledby="calibrationTitle">
+    <aside class="connect-panel">
+      <div class="panel-title-row">
+        <div>
+          <p class="panel-kicker">Calibração remota</p>
+          <h2 id="calibrationTitle">Calibrar <span id="calibrationDeviceName">ESP32</span></h2>
+        </div>
+        <button class="dialog-close" id="closeCalibrationButton" type="button" aria-label="Fechar">×</button>
+      </div>
+      <div class="calibration-intro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 10v6m0-9.5v.5"/></svg>
+        <span>Posicione o dedo como indicado e mantenha-o parado. A ESP32 fará várias leituras, calculará a média e salvará o ponto na memória.</span>
+      </div>
+      <div class="calibration-grid">
+        <article class="calibration-step">
+          <div class="step-head"><span class="step-number">1</span><span class="step-title">Dedo estendido</span></div>
+          <label for="calibrationCm0">Movimento correspondente</label>
+          <input id="calibrationCm0" type="number" min="0" max="20" step="0.1" value="0.0">
+          <button class="capture-button" type="button" data-calibration-point="0">Registrar ponto</button>
+          <p class="point-result" id="pointResult0">Ainda não registrado</p>
+        </article>
+        <article class="calibration-step">
+          <div class="step-head"><span class="step-number">2</span><span class="step-title">Meio dobrado</span></div>
+          <label for="calibrationCm1">Movimento correspondente</label>
+          <input id="calibrationCm1" type="number" min="0" max="20" step="0.1" value="3.0">
+          <button class="capture-button" type="button" data-calibration-point="1">Registrar ponto</button>
+          <p class="point-result" id="pointResult1">Ainda não registrado</p>
+        </article>
+        <article class="calibration-step">
+          <div class="step-head"><span class="step-number">3</span><span class="step-title">Totalmente dobrado</span></div>
+          <label for="calibrationCm2">Movimento correspondente</label>
+          <input id="calibrationCm2" type="number" min="0" max="20" step="0.1" value="6.0">
+          <button class="capture-button" type="button" data-calibration-point="2">Registrar ponto</button>
+          <p class="point-result" id="pointResult2">Ainda não registrado</p>
+        </article>
+      </div>
+      <div class="calibration-footer">
+        <p class="calibration-summary" id="calibrationSummary">Registre os três pontos para concluir a calibração.</p>
+        <button class="reset-button" id="resetCalibrationButton" type="button">Apagar calibração</button>
+      </div>
     </aside>
   </dialog>
 
@@ -1175,6 +1398,11 @@
       stateText: document.getElementById('stateText'),
       historyBody: document.getElementById('historyBody'),
       messageCount: document.getElementById('messageCount'),
+      deviceList: document.getElementById('deviceList'),
+      refreshDevicesButton: document.getElementById('refreshDevicesButton'),
+      calibrationDeviceName: document.getElementById('calibrationDeviceName'),
+      calibrationSummary: document.getElementById('calibrationSummary'),
+      resetCalibrationButton: document.getElementById('resetCalibrationButton'),
       toast: document.getElementById('toast'),
       canvas: document.getElementById('movementChart')
     };
@@ -1185,8 +1413,12 @@
     let totalMessages = 0;
     let history = [];
     let chartPoints = [];
+    let baseTopic = 'landim/flexmotion';
+    let selectedDeviceId = null;
+    const devices = new Map();
 
     const connectionDialog = document.getElementById('connectDialog');
+    const calibrationDialog = document.getElementById('calibrationDialog');
 
     function currentTheme() {
       return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
@@ -1211,6 +1443,206 @@
     function closeConnectionDialog() {
       if (typeof connectionDialog.close === 'function') connectionDialog.close();
       else connectionDialog.removeAttribute('open');
+    }
+
+    function closeCalibrationDialog() {
+      if (typeof calibrationDialog.close === 'function') calibrationDialog.close();
+      else calibrationDialog.removeAttribute('open');
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+      })[character]);
+    }
+
+    function mqttReady() {
+      return Boolean(mqttClient && mqttClient.connected);
+    }
+
+    function resetReadingView() {
+      history = [];
+      chartPoints = [];
+      totalMessages = 0;
+      ui.movement.textContent = '0.00';
+      ui.resistance.textContent = '0.00';
+      ui.voltage.textContent = '0.000';
+      ui.adc.textContent = '0';
+      ui.gauge.style.setProperty('--gauge-angle', '0deg');
+      ui.gaugeValue.textContent = '0%';
+      ui.stateText.textContent = 'Aguardando dados';
+      ui.messageCount.textContent = '0 mensagens';
+      ui.historyBody.innerHTML = '<tr class="empty-row"><td colspan="6">Aguardando dados da ESP32 selecionada.</td></tr>';
+      drawChart();
+    }
+
+    function renderDevices() {
+      const list = Array.from(devices.entries()).sort((a, b) => Number(b[1].online) - Number(a[1].online));
+      if (!list.length) {
+        ui.deviceList.innerHTML = `
+          <div class="device-empty">
+            <span class="device-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></svg></span>
+            <span>${mqttReady() ? 'Nenhuma ESP32 respondeu. Grave o novo código na placa e clique em Procurar placas.' : 'Conecte o painel ao HiveMQ para localizar as ESP32 com o novo código.'}</span>
+          </div>`;
+        return;
+      }
+
+      ui.deviceList.innerHTML = list.map(([id, device]) => {
+        const selected = id === selectedDeviceId;
+        const calibratedText = device.calibrated ? 'Calibrada' : 'Pendente';
+        const signal = Number.isFinite(Number(device.rssi)) ? `${device.rssi} dBm` : '—';
+        return `
+          <article class="device-card${selected ? ' selected' : ''}" data-device-id="${escapeHTML(id)}">
+            <div class="device-card-head">
+              <div>
+                <p class="device-name">${escapeHTML(device.name || 'ESP32 FlexMotion')}</p>
+                <p class="device-id">${escapeHTML(id)}</p>
+              </div>
+              <span class="online-badge${device.online ? '' : ' offline'}">${device.online ? 'Online' : 'Offline'}</span>
+            </div>
+            <div class="device-meta">
+              <div><span>IP local</span><strong>${escapeHTML(device.ip || '—')}</strong></div>
+              <div><span>Rede Wi-Fi</span><strong>${escapeHTML(device.network || '—')}</strong></div>
+              <div><span>Sinal Wi-Fi</span><strong>${escapeHTML(signal)}</strong></div>
+              <div><span>Calibração</span><strong>${calibratedText}</strong></div>
+            </div>
+            <div class="device-actions">
+              <button class="device-select" type="button" data-device-action="select">${selected ? 'Selecionada' : 'Selecionar'}</button>
+              <button class="device-calibrate" type="button" data-device-action="calibrate"${device.online ? '' : ' disabled'}>Calibrar</button>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    function selectDevice(deviceId, notify = true) {
+      if (!devices.has(deviceId)) return;
+      if (selectedDeviceId !== deviceId) resetReadingView();
+      selectedDeviceId = deviceId;
+      renderDevices();
+      if (notify) showToast(`${devices.get(deviceId).name || 'ESP32'} selecionada.`);
+    }
+
+    function handleDeviceStatus(deviceId, payload) {
+      const previous = devices.get(deviceId) || {};
+      const device = {
+        ...previous,
+        ...payload,
+        id: deviceId,
+        online: payload.online !== false,
+        lastSeen: Date.now()
+      };
+      devices.set(deviceId, device);
+      if (!selectedDeviceId && device.online) selectedDeviceId = deviceId;
+      renderDevices();
+    }
+
+    function updateCalibrationResults(payload) {
+      if (Array.isArray(payload.points)) {
+        payload.points.forEach((point, index) => {
+          if (!point || !point.valid) return;
+          const result = document.getElementById(`pointResult${index}`);
+          result.textContent = `ADC ${Math.round(numeric(point.adc))} · ${numeric(point.cm).toFixed(1)} cm`;
+          result.className = 'point-result saved';
+          const input = document.getElementById(`calibrationCm${index}`);
+          input.value = numeric(point.cm).toFixed(1);
+        });
+      }
+      if (payload.event === 'reset') {
+        for (let index = 0; index < 3; index += 1) {
+          const result = document.getElementById(`pointResult${index}`);
+          result.textContent = 'Ainda não registrado';
+          result.className = 'point-result';
+        }
+      }
+      ui.calibrationSummary.textContent = payload.calibrated
+        ? 'Calibração concluída e salva na memória da ESP32.'
+        : 'Registre os três pontos para concluir a calibração.';
+    }
+
+    function handleCalibrationState(deviceId, payload) {
+      const device = devices.get(deviceId) || { id: deviceId, name: 'ESP32 FlexMotion', online: true };
+      device.calibrated = Boolean(payload.calibrated);
+      device.calibration = payload;
+      devices.set(deviceId, device);
+      renderDevices();
+      if (selectedDeviceId === deviceId) updateCalibrationResults(payload);
+      if (payload.error) showToast(payload.error, 'error');
+      else if (payload.event === 'point_saved') showToast(`Ponto ${Number(payload.point) + 1} registrado pela ESP32.`);
+      else if (payload.calibrated) showToast('Calibração concluída e salva.');
+    }
+
+    function openCalibration(deviceId) {
+      const device = devices.get(deviceId);
+      if (!device || !device.online) return;
+      selectDevice(deviceId, false);
+      ui.calibrationDeviceName.textContent = device.name || 'ESP32';
+      for (let index = 0; index < 3; index += 1) {
+        const result = document.getElementById(`pointResult${index}`);
+        result.textContent = 'Ainda não registrado';
+        result.className = 'point-result';
+      }
+      ui.calibrationSummary.textContent = 'Registre os três pontos para concluir a calibração.';
+      if (device.calibration) updateCalibrationResults(device.calibration);
+      if (typeof calibrationDialog.showModal === 'function') calibrationDialog.showModal();
+      else calibrationDialog.setAttribute('open', '');
+    }
+
+    function publishDeviceCommand(action, extra = {}) {
+      if (!selectedDeviceId) {
+        showToast('Selecione uma ESP32 primeiro.', 'error');
+        return false;
+      }
+      if (selectedDeviceId === 'demo-esp32' && demoTimer) return true;
+      if (!mqttReady()) {
+        showToast('Conecte o painel ao MQTT antes de enviar comandos.', 'error');
+        return false;
+      }
+      mqttClient.publish(`${baseTopic}/devices/${selectedDeviceId}/command`, JSON.stringify({ action, ...extra }), { qos: 1 });
+      return true;
+    }
+
+    function captureCalibrationPoint(point, button) {
+      const cm = numeric(document.getElementById(`calibrationCm${point}`).value, NaN);
+      if (!Number.isFinite(cm) || cm < 0) {
+        showToast('Informe um valor válido em centímetros.', 'error');
+        return;
+      }
+      if (!publishDeviceCommand('calibrate_point', { point, cm })) return;
+      button.disabled = true;
+      button.textContent = 'Medindo…';
+      const result = document.getElementById(`pointResult${point}`);
+      result.textContent = 'Mantenha o dedo parado';
+      result.className = 'point-result';
+
+      if (selectedDeviceId === 'demo-esp32' && demoTimer) {
+        setTimeout(() => {
+          const demoDevice = devices.get('demo-esp32');
+          const points = demoDevice.calibration?.points || [{ valid: false }, { valid: false }, { valid: false }];
+          points[point] = { valid: true, adc: [980, 2180, 3340][point], cm };
+          const calibrated = points.every(item => item.valid);
+          const payload = { event: 'point_saved', point, calibrated, points };
+          demoDevice.calibration = payload;
+          demoDevice.calibrated = calibrated;
+          handleCalibrationState('demo-esp32', payload);
+          button.disabled = false;
+          button.textContent = 'Registrar novamente';
+        }, 850);
+      } else {
+        setTimeout(() => {
+          button.disabled = false;
+          button.textContent = 'Registrar novamente';
+        }, 2200);
+      }
+    }
+
+    function announceDevices() {
+      if (!mqttReady()) {
+        openConnectionDialog();
+        showToast('Conecte ao MQTT para procurar placas.', 'error');
+        return;
+      }
+      mqttClient.publish(`${baseTopic}/broadcast/command`, JSON.stringify({ action: 'announce' }), { qos: 0 });
+      showToast('Procurando ESP32 online…');
     }
 
     function setConnection(status, text) {
@@ -1251,7 +1683,15 @@
       return Number.isFinite(parsed) ? parsed : fallback;
     }
 
-    function processReading(payload) {
+    function processReading(payload, deviceId = null) {
+      if (deviceId) {
+        const device = devices.get(deviceId) || { id: deviceId, name: 'ESP32 FlexMotion', online: true };
+        device.lastSeen = Date.now();
+        device.online = true;
+        devices.set(deviceId, device);
+        if (!selectedDeviceId) selectDevice(deviceId, false);
+        if (selectedDeviceId !== deviceId) return;
+      }
       const movement = Math.max(0, Math.min(MAX_MOVEMENT_CM, numeric(payload.movimento_cm)));
       const reading = {
         time: new Date(),
@@ -1454,8 +1894,8 @@
       const port = ui.port.value.trim() || '8884';
       const username = ui.username.value.trim();
       const password = ui.password.value;
-      const topic = ui.topic.value.trim();
-      if (!host || !username || !password || !topic) {
+      baseTopic = ui.topic.value.trim().replace(/\/+$/, '');
+      if (!host || !username || !password || !baseTopic) {
         showToast('Preencha servidor, usuário, senha e tópico para conectar.', 'error');
         return;
       }
@@ -1481,23 +1921,47 @@
 
       mqttClient.on('connect', () => {
         setConnection('connected', 'MQTT conectado');
+        ui.refreshDevicesButton.disabled = false;
         ui.connectButton.disabled = false;
         ui.connectButton.style.opacity = '1';
         ui.connectButton.textContent = 'Reconectar';
-        mqttClient.subscribe(topic, { qos: 0 }, error => {
+        const subscriptions = [
+          `${baseTopic}/devices/+/status`,
+          `${baseTopic}/devices/+/data`,
+          `${baseTopic}/devices/+/calibration`,
+          'landim/sensor-flex/dedo1/dados'
+        ];
+        mqttClient.subscribe(subscriptions, { qos: 0 }, error => {
           if (error) showToast(`Não foi possível assinar o tópico: ${error.message}`, 'error');
-          else showToast(`Conectado e ouvindo ${topic}`);
+          else {
+            closeConnectionDialog();
+            announceDevices();
+          }
         });
       });
 
-      mqttClient.on('message', (_topic, message) => {
-        try { processReading(JSON.parse(message.toString())); }
+      mqttClient.on('message', (receivedTopic, message) => {
+        try {
+          const payload = JSON.parse(message.toString());
+          const match = receivedTopic.match(new RegExp(`^${baseTopic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/devices/([^/]+)/(status|data|calibration)$`));
+          if (!match) {
+            processReading(payload);
+            return;
+          }
+          const [, deviceId, channel] = match;
+          if (channel === 'status') handleDeviceStatus(deviceId, payload);
+          else if (channel === 'calibration') handleCalibrationState(deviceId, payload);
+          else processReading(payload, deviceId);
+        }
         catch (_error) { showToast('Mensagem recebida, mas o conteúdo não é um JSON válido.', 'error'); }
       });
 
       mqttClient.on('reconnect', () => setConnection('connecting', 'Reconectando…'));
       mqttClient.on('offline', () => setConnection('connecting', 'Sem conexão'));
-      mqttClient.on('close', () => { if (mqttClient) setConnection('disconnected', 'Desconectado'); });
+      mqttClient.on('close', () => {
+        ui.refreshDevicesButton.disabled = true;
+        if (mqttClient) setConnection('disconnected', 'Desconectado');
+      });
       mqttClient.on('error', error => {
         ui.connectButton.disabled = false;
         ui.connectButton.style.opacity = '1';
@@ -1509,11 +1973,30 @@
     function toggleDemo() {
       if (demoTimer) {
         stopDemo();
+        const demoDevice = devices.get('demo-esp32');
+        if (demoDevice) {
+          demoDevice.online = false;
+          renderDevices();
+        }
         setConnection('disconnected', 'Demonstração pausada');
         return;
       }
 
       disconnectMQTT();
+      const demoDevice = {
+        id: 'demo-esp32',
+        name: 'ESP32 FlexMotion Demo',
+        ip: '192.168.1.42',
+        network: 'Wi-Fi Laboratório',
+        rssi: -51,
+        firmware: '2.0.0',
+        online: true,
+        calibrated: false,
+        lastSeen: Date.now()
+      };
+      devices.set('demo-esp32', demoDevice);
+      selectedDeviceId = 'demo-esp32';
+      renderDevices();
       setConnection('connected', 'Modo demonstração');
       ui.demoButton.textContent = 'Parar demo';
       showToast('Demonstração iniciada com dados simulados.');
@@ -1529,7 +2012,7 @@
           tensao_v: voltage,
           adc: Math.round((voltage / 3.3) * 4095),
           estado: movement < 1.5 ? 'ESTENDIDO' : movement < 4.5 ? 'INTERMEDIARIO' : 'DOBRADO'
-        });
+        }, 'demo-esp32');
       };
 
       generate();
@@ -1541,6 +2024,27 @@
       connectMQTT();
     });
     ui.demoButton.addEventListener('click', toggleDemo);
+    ui.refreshDevicesButton.addEventListener('click', announceDevices);
+    ui.deviceList.addEventListener('click', event => {
+      const actionButton = event.target.closest('[data-device-action]');
+      if (!actionButton) return;
+      const card = actionButton.closest('[data-device-id]');
+      if (!card) return;
+      if (actionButton.dataset.deviceAction === 'select') selectDevice(card.dataset.deviceId);
+      else openCalibration(card.dataset.deviceId);
+    });
+    document.querySelectorAll('[data-calibration-point]').forEach(button => {
+      button.addEventListener('click', () => captureCalibrationPoint(Number(button.dataset.calibrationPoint), button));
+    });
+    ui.resetCalibrationButton.addEventListener('click', () => {
+      if (!publishDeviceCommand('reset_calibration')) return;
+      if (selectedDeviceId === 'demo-esp32' && demoTimer) {
+        const demoDevice = devices.get('demo-esp32');
+        demoDevice.calibrated = false;
+        demoDevice.calibration = { event: 'reset', calibrated: false, points: [{ valid: false }, { valid: false }, { valid: false }] };
+        handleCalibrationState('demo-esp32', demoDevice.calibration);
+      }
+    });
     ui.themeButton.addEventListener('click', () => {
       setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
     });
@@ -1548,8 +2052,12 @@
     document.getElementById('heroSettingsButton').addEventListener('click', openConnectionDialog);
     document.getElementById('closeDialogButton').addEventListener('click', closeConnectionDialog);
     document.getElementById('cancelDialogButton').addEventListener('click', closeConnectionDialog);
+    document.getElementById('closeCalibrationButton').addEventListener('click', closeCalibrationDialog);
     connectionDialog.addEventListener('click', event => {
       if (event.target === connectionDialog) closeConnectionDialog();
+    });
+    calibrationDialog.addEventListener('click', event => {
+      if (event.target === calibrationDialog) closeCalibrationDialog();
     });
     window.addEventListener('resize', drawChart);
     window.addEventListener('beforeunload', () => {
